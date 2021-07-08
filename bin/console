@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'pry'
+
+require File.expand_path('../lib/env', __dir__)
+
+Pry.start

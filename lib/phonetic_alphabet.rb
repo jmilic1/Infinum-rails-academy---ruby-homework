@@ -36,4 +36,11 @@ def nato_phonetic_alphabet # rubocop:disable Metrics/MethodLength
   }
 end
 
-def spell(word); end
+def spell(word)
+  result = ''
+
+  chars = word.chars
+  chars.each { |char| result += " #{nato_phonetic_alphabet[char]}" }
+
+  result[1, result.length - 1]
+end

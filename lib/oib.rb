@@ -15,4 +15,30 @@
 #   https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf
 
 class Oib
+  def initialize(number)
+    raise ArgumentError, 'Code is too short' if number.length < 11
+    raise ArgumentError, 'Code is too long' if number.length > 11
+    raise ArgumentError, 'Code should contain only digits' unless number.scan(/\D/).empty?
+
+    @number = number
+  end
+
+  def valid? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    digits = @number.chars
+
+    result = 0
+    digits.each_with_index do |digit, index|
+      break if index == 10
+
+      digit = Integer(digit)
+
+      result = index.zero? ? digit + 10 : result + digit
+      result = (result % 10).zero? ? 10 : result % 10
+      result *= 2
+      result %= 11
+    end
+
+    result = result == 1 ? 0 : 11 - result
+    result == Integer(digits[10])
+  end
 end

@@ -8,4 +8,14 @@
 # if votes are ['Paula', 'Zach', 'Albert', 'Zach', 'Paula', 'Albert', 'Albert', 'Zach']
 # winner is 'Zach'
 
-def election_winner(votes); end
+def election_winner(votes)
+  candidate_votes = Hash.new(0)
+
+  votes.each { |vote| candidate_votes[vote.to_sym] += 1 }
+
+  max_votes = candidate_votes.values.max
+  candidate_votes = candidate_votes.select { |_, v| v == max_votes }
+
+  sorted = candidate_votes.sort.reverse
+  sorted[0][0].to_s
+end

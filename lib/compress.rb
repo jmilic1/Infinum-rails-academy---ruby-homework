@@ -8,4 +8,22 @@
 #   aabb -> 2a2b
 #   abc  -> 1a1b1c
 
-def compress(input_stream); end
+def compress(input_stream) # rubocop:disable Metrics/MethodLength
+  chars = input_stream.chars
+  result = ''
+  return result if chars.length.zero?
+
+  char = chars[0]
+  num_of_char = 0
+
+  chars.each do |c|
+    if char != c
+      result += num_of_char.to_s + char
+      char = c
+      num_of_char = 0
+    end
+    num_of_char += 1
+  end
+
+  result + num_of_char.to_s + char
+end

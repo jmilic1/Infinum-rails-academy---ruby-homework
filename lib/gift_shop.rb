@@ -39,8 +39,40 @@
 #     items: [Item.new(weight: 50, quantity: 2), Item.new(weight: 100, quantity: 3)]
 #  )
 
-class Item
+class Constants
+  def self.weight_sym
+    :weight
+  end
+
+  def self.quantity_sym
+    :quantity
+  end
+
+  def self.items_sym
+    :items
+  end
 end
 
-class Box
+class Item
+  def initialize(options)
+    @weight = options[Constants.weight_sym]
+    @quantity = options.key?(Constants.quantity_sym) ? options[Constants.quantity_sym] : 1
+  end
+
+  def total_weight
+    @weight * @quantity
+  end
+end
+
+class Box < Item
+  def initialize(options)
+    super(options)
+    @items = options[Constants.items_sym]
+  end
+
+  def total_weight
+    total_weight = 0
+    @items.each { |item| total_weight += item.total_weight }
+    total_weight + @weight
+  end
 end

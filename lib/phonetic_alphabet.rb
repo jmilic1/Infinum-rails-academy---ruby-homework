@@ -37,8 +37,5 @@ def nato_phonetic_alphabet # rubocop:disable Metrics/MethodLength
 end
 
 def spell(word)
-  chars = word.chars
-  result = chars.map { |char| nato_phonetic_alphabet[char] }.join(' ')
-
-  result.lstrip
+  word.chars.map { |char| nato_phonetic_alphabet[char] }.join(' ').lstrip
 end

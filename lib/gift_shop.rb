@@ -54,25 +54,27 @@ class Constants
 end
 
 class Item
+  attr_accessor :weight, :quantity
+
   def initialize(options)
     @weight = options[Constants.weight_sym]
-    @quantity = options.key?(Constants.quantity_sym) ? options[Constants.quantity_sym] : 1
+    @quantity = options.fetch(Constants.quantity_sym, 1)
   end
 
   def total_weight
-    @weight * @quantity
+    weight * quantity
   end
 end
 
 class Box < Item
+  attr_accessor :items
+
   def initialize(options)
     super(options)
     @items = options[Constants.items_sym]
   end
 
   def total_weight
-    total_weight = 0
-    @items.each { |item| total_weight += item.total_weight }
-    total_weight + @weight
+    items.sum(&:total_weight) + weight
   end
 end

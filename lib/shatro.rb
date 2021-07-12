@@ -31,12 +31,9 @@ end
 class Word
   def self.do_shatro(word)
     chars = word.chars
-    index_first_vowel = nil
+    return word if chars.length < 3
 
-    loop do
-      index_first_vowel = index_first_vowel.nil? ? 0 : index_first_vowel + 1
-      break if Character.vowel?(chars[index_first_vowel])
-    end
+    index_first_vowel = chars.index { |char| Character.vowel?(char) }
 
     first_syllable = word[0, index_first_vowel + 1]
     second_syllable = word[index_first_vowel + 1, word.length - 1]

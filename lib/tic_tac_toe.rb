@@ -14,9 +14,7 @@
 #
 #  winner is 'X'
 
-def bound
-  3
-end
+BOUND = 3
 
 def sequence_contains_only_sign(board, start_x, start_y, increment_x, increment_y)
   x = start_x
@@ -28,41 +26,21 @@ def sequence_contains_only_sign(board, start_x, start_y, increment_x, increment_
 
     x += increment_x
     y += increment_y
-    break unless x < bound && y < bound
+    break unless x < BOUND && y < BOUND
   end
 
   sign
 end
 
-def iterate_over_row(board, start_x)
-  sequence_contains_only_sign(board, start_x, 0, 0, 1)
-end
-
-def iterate_over_column(board, start_y)
-  sequence_contains_only_sign(board, 0, start_y, 1, 0)
-end
-
-def iterate_over_first_diagonal(board)
-  sequence_contains_only_sign(board, 0, 0, 1, 1)
-end
-
-def iterate_over_second_diagonal(board)
-  sequence_contains_only_sign(board, 2, 0, -1, 1)
-end
-
-def tic_tac_toe(board) # rubocop:disable Metrics/MethodLength
+def tic_tac_toe(board)
   (0..2).each do |index|
-    sign = iterate_over_column(board, index)
-    return sign unless sign.nil?
-
-    sign = iterate_over_row(board, index)
+    sign = sequence_contains_only_sign(board, 0, index, 1, 0) ||
+           sequence_contains_only_sign(board, index, 0, 0, 1)
     return sign unless sign.nil?
   end
 
-  sign = iterate_over_first_diagonal(board)
-  return sign unless sign.nil?
-
-  sign = iterate_over_second_diagonal(board)
+  sign = sequence_contains_only_sign(board, 0, 0, 1, 1) ||
+         sequence_contains_only_sign(board, 2, 0, -1, 1)
   return sign unless sign.nil?
 
   'D'

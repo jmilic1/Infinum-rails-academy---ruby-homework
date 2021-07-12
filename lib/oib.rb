@@ -26,13 +26,13 @@ class Oib
   end
 
   def valid? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    digits = number.chars
+    # Why do I need to reverse?
+    digits = number.to_i.digits.reverse
 
     result = digits.each_with_index.inject(0) do |accumulator, pair|
       digit, index = pair
-      digit = digit.to_i
 
-      break accumulator.to_i if index == 10
+      break accumulator if index == 10
 
       accumulator = index.zero? ? digit + 10 : accumulator + digit
       accumulator = (accumulator % 10).zero? ? 10 : accumulator % 10
@@ -41,6 +41,6 @@ class Oib
     end
 
     result = result == 1 ? 0 : 11 - result
-    result == digits[10].to_i
+    result == digits[10]
   end
 end

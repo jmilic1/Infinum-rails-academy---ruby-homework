@@ -10,9 +10,9 @@
 
 def compress(input_stream) # rubocop:disable Metrics/MethodLength
   chars = input_stream.chars
-  result = ''
-  return result if chars.length.zero?
+  return '' if chars.length.zero?
 
+  result = ''
   char = chars[0]
   num_of_char = 0
 

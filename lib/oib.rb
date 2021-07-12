@@ -15,6 +15,8 @@
 #   https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf
 
 class Oib
+  attr_accessor :number
+
   def initialize(number)
     raise ArgumentError, 'Code is too short' if number.length < 11
     raise ArgumentError, 'Code is too long' if number.length > 11
@@ -24,21 +26,21 @@ class Oib
   end
 
   def valid? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    digits = @number.chars
+    digits = number.chars
 
-    result = 0
-    digits.each_with_index do |digit, index|
-      break if index == 10
+    result = digits.each_with_index.inject(0) do |accumulator, pair|
+      digit, index = pair
+      digit = digit.to_i
 
-      digit = Integer(digit)
+      break accumulator.to_i if index == 10
 
-      result = index.zero? ? digit + 10 : result + digit
-      result = (result % 10).zero? ? 10 : result % 10
-      result *= 2
-      result %= 11
+      accumulator = index.zero? ? digit + 10 : accumulator + digit
+      accumulator = (accumulator % 10).zero? ? 10 : accumulator % 10
+      accumulator *= 2
+      accumulator % 11
     end
 
     result = result == 1 ? 0 : 11 - result
-    result == Integer(digits[10])
+    result == digits[10].to_i
   end
 end

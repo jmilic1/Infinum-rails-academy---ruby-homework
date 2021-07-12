@@ -3,7 +3,7 @@
 
 class Integer
   def increment
-    to_i + 1
+    self + 1
   end
 end
 
@@ -21,9 +21,7 @@ end
 
 class String
   def ascii_sum
-    sum = 0
-    chars.each { |char| sum += char.ord }
-    sum
+    chars.sum(&:ord)
   end
 end
 

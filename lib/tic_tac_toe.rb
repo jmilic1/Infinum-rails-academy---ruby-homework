@@ -1,4 +1,3 @@
-require 'matrix'
 # Implement a function which detects the winner of a tic-tac-toe game. The function accepts a single
 # argument, a board(represented as an array), with position markers for both players. There are
 # three possible values for a marker on board, 'X', 'O' or nil(nobody marked that field). The board

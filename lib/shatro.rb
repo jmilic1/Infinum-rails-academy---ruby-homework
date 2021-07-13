@@ -23,18 +23,28 @@
 #   - create a Character class which knows if a character is a vowel or not
 
 class Character
-  def self.vowel?(char)
+  attr_accessor :char
+
+  def initialize(char)
+    @char = char
+  end
+
+  def vowel?
     %w[a e i o u].include?(char)
   end
 end
 
 class Word
-  def self.do_shatro(word)
-    chars = word.chars
-    return word if chars.length < 3
+  attr_accessor :word
 
-    index_first_vowel = chars.index { |char| Character.vowel?(char) }
+  def initialize(word)
+    @word = word
+  end
 
+  def do_shatro # rubocop:disable Metrics/AbcSize
+    return word if word.length < 3
+
+    index_first_vowel = word.chars.index { |char| Character.new(char).vowel? }
     first_syllable = word[0, index_first_vowel + 1]
     second_syllable = word[index_first_vowel + 1, word.length - 1]
 
@@ -43,15 +53,17 @@ class Word
 end
 
 class Solution
-  def self.accept(sentence)
-    words = sentence.split(/\W+/)
-    result = ''
+  attr_accessor :sentence
 
-    words.each { |word| result += " #{Word.do_shatro(word)}" }
-    result[1, result.length - 1]
+  def initialize(sentence)
+    @sentence = sentence
+  end
+
+  def accept
+    sentence.split(/\W+/).map { |word| Word.new(word).do_shatro }.join(' ').lstrip
   end
 end
 
 def shatro(sentence)
-  Solution.accept(sentence)
+  Solution.new(sentence).accept
 end

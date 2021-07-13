@@ -8,22 +8,6 @@
 #   aabb -> 2a2b
 #   abc  -> 1a1b1c
 
-def compress(input_stream) # rubocop:disable Metrics/MethodLength
-  chars = input_stream.chars
-  return '' if chars.length.zero?
-
-  result = ''
-  char = chars[0]
-  num_of_char = 0
-
-  chars.each do |c|
-    if char != c
-      result += num_of_char.to_s + char
-      char = c
-      num_of_char = 0
-    end
-    num_of_char += 1
-  end
-
-  result + num_of_char.to_s + char
+def compress(input_stream)
+  input_stream.chars.chunk { |c| c }.map { |element| element[1].length.to_s + element[0] }.join
 end

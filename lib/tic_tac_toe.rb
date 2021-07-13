@@ -1,3 +1,4 @@
+require 'matrix'
 # Implement a function which detects the winner of a tic-tac-toe game. The function accepts a single
 # argument, a board(represented as an array), with position markers for both players. There are
 # three possible values for a marker on board, 'X', 'O' or nil(nobody marked that field). The board
@@ -14,19 +15,41 @@
 #
 #  winner is 'X'
 
-BOUND = 3
+def row_contains_sign(board, x_row)
+  sign = board[x_row][0]
 
-def sequence_contains_only_sign(board, start_x, start_y, increment_x, increment_y)
-  x = start_x
-  y = start_y
-  sign = board[x][y]
+  (1..2).each do |index|
+    return nil if board[x_row][index] != sign
+  end
 
-  loop do
-    return nil if board[x][y] != sign
+  sign
+end
 
-    x += increment_x
-    y += increment_y
-    break unless x < BOUND && y < BOUND
+def column_contains_sign(board, y_column)
+  sign = board[0][y_column]
+
+  (1..2).each do |index|
+    return nil if board[index][y_column] != sign
+  end
+
+  sign
+end
+
+def first_diagonal_contains_sign(board)
+  sign = board[0][0]
+
+  (1..2).each do |index|
+    return nil if board[index][index] != sign
+  end
+
+  sign
+end
+
+def second_diagonal_contains_sign(board)
+  sign = board[2][0]
+
+  (1..2).each do |index|
+    return nil if board[2 - index][index] != sign
   end
 
   sign
@@ -34,13 +57,13 @@ end
 
 def tic_tac_toe(board)
   (0..2).each do |index|
-    sign = sequence_contains_only_sign(board, 0, index, 1, 0) ||
-           sequence_contains_only_sign(board, index, 0, 0, 1)
+    sign = row_contains_sign(board, index) ||
+           column_contains_sign(board, index)
     return sign unless sign.nil?
   end
 
-  sign = sequence_contains_only_sign(board, 0, 0, 1, 1) ||
-         sequence_contains_only_sign(board, 2, 0, -1, 1)
+  sign = first_diagonal_contains_sign(board) ||
+         second_diagonal_contains_sign(board)
   return sign unless sign.nil?
 
   'D'

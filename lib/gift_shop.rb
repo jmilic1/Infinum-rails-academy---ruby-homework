@@ -39,26 +39,12 @@
 #     items: [Item.new(weight: 50, quantity: 2), Item.new(weight: 100, quantity: 3)]
 #  )
 
-class Constants
-  def self.weight_sym
-    :weight
-  end
-
-  def self.quantity_sym
-    :quantity
-  end
-
-  def self.items_sym
-    :items
-  end
-end
-
 class Item
   attr_accessor :weight, :quantity
 
   def initialize(options)
-    @weight = options[Constants.weight_sym]
-    @quantity = options.fetch(Constants.quantity_sym, 1)
+    @weight = options[:weight]
+    @quantity = options.fetch(:quantity, 1)
   end
 
   def total_weight
@@ -71,7 +57,7 @@ class Box < Item
 
   def initialize(options)
     super(options)
-    @items = options[Constants.items_sym]
+    @items = options[:items]
   end
 
   def total_weight

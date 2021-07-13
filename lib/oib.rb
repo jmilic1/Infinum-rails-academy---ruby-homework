@@ -27,7 +27,7 @@ class Oib
     @number = number
   end
 
-  def valid? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def valid?
     digits = number.to_i.digits.reverse
 
     result = digits.each_with_index.inject(0) do |accumulator, pair|
@@ -35,13 +35,18 @@ class Oib
 
       break accumulator if index == OIB_LENGTH - 1
 
-      accumulator = index.zero? ? digit + 10 : accumulator + digit
-      accumulator = (accumulator % 10).zero? ? 10 : accumulator % 10
-      accumulator *= 2
-      accumulator % 11
+      validation_step(accumulator, digit, index)
     end
 
     result = result == 1 ? 0 : 11 - result
     result == digits[10]
+  end
+
+  private
+
+  def validation_step(accumulator, digit, index)
+    accumulator = index.zero? ? digit + 10 : accumulator + digit
+    accumulator = (accumulator % 10).zero? ? 10 : accumulator % 10
+    accumulator * 2 % 11
   end
 end

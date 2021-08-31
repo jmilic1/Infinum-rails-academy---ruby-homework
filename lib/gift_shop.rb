@@ -40,7 +40,27 @@
 #  )
 
 class Item
+  attr_accessor :weight, :quantity
+
+  def initialize(options)
+    @weight = options[:weight]
+    @quantity = options.fetch(:quantity, 1)
+  end
+
+  def total_weight
+    weight * quantity
+  end
 end
 
-class Box
+class Box < Item
+  attr_accessor :items
+
+  def initialize(options)
+    super(options)
+    @items = options[:items]
+  end
+
+  def total_weight
+    items.sum(&:total_weight) + weight
+  end
 end

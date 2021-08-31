@@ -8,4 +8,6 @@
 #   aabb -> 2a2b
 #   abc  -> 1a1b1c
 
-def compress(input_stream); end
+def compress(input_stream)
+  input_stream.chars.chunk { |c| c }.map { |element| element[1].length.to_s + element[0] }.join
+end

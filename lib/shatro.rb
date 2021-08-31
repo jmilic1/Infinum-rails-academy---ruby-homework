@@ -22,4 +22,48 @@
 #   - create a Word class which accepts only 1 word and knows how to convert it to shatro
 #   - create a Character class which knows if a character is a vowel or not
 
-def shatro(sentence); end
+class Character
+  attr_accessor :char
+
+  def initialize(char)
+    @char = char
+  end
+
+  def vowel?
+    %w[a e i o u].include?(char)
+  end
+end
+
+class Word
+  attr_accessor :word
+
+  def initialize(word)
+    @word = word
+  end
+
+  def do_shatro # rubocop:disable Metrics/AbcSize
+    return word if word.length < 3
+
+    index_first_vowel = word.chars.index { |char| Character.new(char).vowel? }
+    first_syllable = word[0, index_first_vowel + 1]
+    second_syllable = word[index_first_vowel + 1, word.length - 1]
+
+    second_syllable + first_syllable
+  end
+end
+
+class Solution
+  attr_accessor :sentence
+
+  def initialize(sentence)
+    @sentence = sentence
+  end
+
+  def accept
+    sentence.split(/\W+/).map { |word| Word.new(word).do_shatro }.join(' ').lstrip
+  end
+end
+
+def shatro(sentence)
+  Solution.new(sentence).accept
+end

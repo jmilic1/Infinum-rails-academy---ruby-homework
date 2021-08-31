@@ -14,4 +14,56 @@
 #
 #  winner is 'X'
 
-def tic_tac_toe(board); end
+def row_contains_sign(board, x_row)
+  sign = board[x_row][0]
+
+  (1..2).each do |index|
+    return nil if board[x_row][index] != sign
+  end
+
+  sign
+end
+
+def column_contains_sign(board, y_column)
+  sign = board[0][y_column]
+
+  (1..2).each do |index|
+    return nil if board[index][y_column] != sign
+  end
+
+  sign
+end
+
+def first_diagonal_contains_sign(board)
+  sign = board[0][0]
+
+  (1..2).each do |index|
+    return nil if board[index][index] != sign
+  end
+
+  sign
+end
+
+def second_diagonal_contains_sign(board)
+  sign = board[2][0]
+
+  (1..2).each do |index|
+    return nil if board[2 - index][index] != sign
+  end
+
+  sign
+end
+
+def tic_tac_toe(board)
+  (0..2).each do |index|
+    sign = row_contains_sign(board, index) ||
+           column_contains_sign(board, index)
+    return sign unless sign.nil?
+  end
+
+  sign = first_diagonal_contains_sign(board) ||
+         second_diagonal_contains_sign(board)
+  return sign unless sign.nil?
+
+  'D'
+end

@@ -15,4 +15,19 @@
 #   8   |   2
 #   9   |   1
 
-def holes(number); end
+DIGIT_HOLES = {
+  0 => 1,
+  1 => 0,
+  2 => 0,
+  3 => 0,
+  4 => 1,
+  5 => 0,
+  6 => 1,
+  7 => 0,
+  8 => 2,
+  9 => 1
+}
+
+def holes(number)
+  number.digits.sum { |digit| DIGIT_HOLES[digit] }
+end
